@@ -98,9 +98,9 @@ name_en_field: &name_en
   name: name_en
   key: name:en
   type: string
-name_de_field: &name_de
-  name: name_de
-  key: name:de
+name_zh_field: &name_zh
+  name: name_zh
+  key: name:zh
   type: string
 tunnel_field: &tunnel
   key: tunnel
@@ -229,7 +229,7 @@ tables:
     - *indoor
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - *tunnel
@@ -308,7 +308,7 @@ tables:
     - *indoor
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - *tunnel
@@ -345,7 +345,7 @@ tables:
     - *layer
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - *tunnel
@@ -383,7 +383,7 @@ tables:
     - *layer
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - *tunnel
@@ -451,7 +451,7 @@ tables:
     - *level
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - name: ref
