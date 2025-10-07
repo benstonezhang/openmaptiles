@@ -27,10 +27,10 @@ FROM (
          SELECT osm_id,
                 geometry,
                 COALESCE(
-                        LOWER(REPLACE(NULLIF(protection_title, ''), ' ', '_')),
-                        NULLIF(boundary, ''),
-                        NULLIF(leisure, '')
-                    ) AS class,
+                    LOWER(REPLACE(NULLIF(protection_title, ''), ' ', '_')),
+                    NULLIF(boundary, ''),
+                    NULLIF(leisure, ''))
+                AS class,
                 name,
                 name_en,
                 name_zh,

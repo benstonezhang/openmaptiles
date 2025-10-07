@@ -9,14 +9,16 @@ layer:
       This is based of the [osm-lakelines](https://github.com/openmaptiles/osm-lakelines) project
       which derives nice centerlines from OSM water bodies. Only the most important lakes contain labels.
   fields:
-    name: The OSM [`name`](http://wiki.openstreetmap.org/wiki/Key:name) value of the water body.
-    name_en: English name `name:en` if available, otherwise `name`.
-    name_zh: Chinese name `name:zh` if available, otherwise `name` or `name:en`.
+    name: The OSM [`name`](http://wiki.openstreetmap.org/wiki/Key:name) value of the water body. Language-specific values are in `name:xx`.
+    name_en: English name `name:en` if available, otherwise `name`. This is deprecated and will be removed in a future release in favor of `name:en`.
+    name_zh: Chinese name `name:zh` if available, otherwise `name` or `name:en`. This is deprecated and will be removed in a future release in favor of `name:zh`.
     class:
       description: |
-          Distinguish between `lake`, `ocean` and `sea`.
+          Distinguish between `lake`, `ocean`, `bay`, `strait`, and `sea`.
       values:
       - lake
+      - bay
+      - strait
       - sea
       - ocean
     intermittent:
@@ -33,8 +35,7 @@ layer:
     query: (SELECT osm_id, geometry, name, name_en, name_zh, {name_languages}, class, intermittent FROM layer_water_name(!bbox!, z(!scale_denominator!))) AS t
 schema:
   - ./update_marine_point.sql
-  - ./update_water_lakeline.sql
-  - ./update_water_point.sql
+  - ./update_water_name.sql
   - ./water_name.sql
 datasources:
   - type: imposm3
