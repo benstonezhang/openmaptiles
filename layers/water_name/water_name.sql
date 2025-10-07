@@ -44,7 +44,7 @@ SELECT
     geometry,
     name,
     COALESCE(NULLIF(name_en, ''), name) AS name_en,
-    COALESCE(NULLIF(name_zh, ''), name, name_en) AS name_de,
+    COALESCE(NULLIF(name_zh, ''), name, name_en) AS name_zh,
     tags,
     'lake'::text AS class,
     is_intermittent::int AS intermittent
@@ -63,7 +63,7 @@ SELECT
     geometry,
     name,
     COALESCE(NULLIF(name_en, ''), name) AS name_en,
-    COALESCE(NULLIF(name_de, ''), name, name_en) AS name_de,
+    COALESCE(NULLIF(name_zh, ''), name, name_en) AS name_zh,
     tags,
     place::text AS class,
     is_intermittent::int AS intermittent

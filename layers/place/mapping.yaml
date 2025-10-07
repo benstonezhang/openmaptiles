@@ -121,9 +121,12 @@ tables:
       type: geometry
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
+    - name: place
+      key: place
+      type: string
     - name: is_in_country
       key: is_in:country
       type: string
@@ -140,6 +143,7 @@ tables:
     mapping:
       place:
       - state
+      - province
 
   # etldoc: imposm3 -> osm_city_point
   city_point:
@@ -151,7 +155,7 @@ tables:
       type: geometry
     - *name
     - *name_en
-    - *name_de
+    - *name_zh
     - name: tags
       type: hstore_tags
     - name: place
