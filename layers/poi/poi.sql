@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION layer_poi(bbox geometry, zoom_level integer, pixel_wi
                 geometry geometry,
                 name     text,
                 name_en  text,
-                name_de  text,
+                name_zh  text,
                 tags     hstore,
                 class    text,
                 subclass text,

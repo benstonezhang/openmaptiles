@@ -65,7 +65,7 @@ tables:
       key: name:en
       type: string
     - name: name_de
-      key: name:de
+      key: name:zh
       type: string
     - name: tags
       type: hstore_tags

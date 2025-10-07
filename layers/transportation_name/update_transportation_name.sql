@@ -12,7 +12,7 @@ SELECT
     osm_id,
     name,
     name_en,
-    name_de,
+    name_zh,
     tags,
     ref,
     highway,
@@ -80,7 +80,7 @@ FROM (
                 name_en,
                 name_de,
                 tags || hstore( -- store results of osml10n_street_abbrev_* above
-                               ARRAY ['name', name, 'name:en', name_en, 'name:de', name_de]) AS tags,
+                               ARRAY ['name', name, 'name:en', name_en, 'name:zh', name_de]) AS tags,
                 ref,
                 highway,
                 construction,
@@ -489,7 +489,7 @@ BEGIN
             n.name_en,
             n.name_de,
             hstore(string_agg(nullif(slice_language_tags(tags ||
-                                                         hstore(ARRAY ['name', n.name, 'name:en', n.name_en, 'name:de', n.name_de]))::text,
+                                                         hstore(ARRAY ['name', n.name, 'name:en', n.name_en, 'name:zh', n.name_de]))::text,
                                      ''), ',')) AS tags,
             n.ref,
             n.highway,
