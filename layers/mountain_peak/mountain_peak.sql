@@ -1,22 +1,3 @@
--- etldoc: osm_peak_point -> peak_point
--- etldoc: ne_10m_admin_0_countries -> peak_point
-CREATE OR REPLACE VIEW peak_point AS
-(
-SELECT pp.osm_id,
-       pp.geometry,
-       pp.name,
-       pp.name_en,
-       pp.name_de,
-       pp.tags,
-       pp.ele,
-       ne.iso_a2,
-       pp.wikipedia
-FROM osm_peak_point pp, ne_10m_admin_0_countries ne
-WHERE ST_Intersects(pp.geometry, ne.geometry)
-    );
-
-
-
 -- etldoc: layer_mountain_peak[shape=record fillcolor=lightpink,
 -- etldoc:     style="rounded,filled", label="layer_mountain_peak | <z7_> z7+ | <z13_> z13+" ] ;
 
@@ -29,7 +10,7 @@ CREATE OR REPLACE FUNCTION layer_mountain_peak(bbox geometry,
                 geometry        geometry,
                 name            text,
                 name_en         text,
-                name_de         text,
+                name_zh         text,
                 class           text,
                 tags            hstore,
                 ele             int,
@@ -45,7 +26,7 @@ SELECT
     geometry,
     name,
     name_en,
-    name_de,
+    name_zh,
     tags->'natural' AS class,
     tags,
     ele::int,
@@ -57,7 +38,7 @@ FROM (
                 geometry,
                 NULLIF(name, '') as name,
                 COALESCE(NULLIF(name_en, ''), NULLIF(name, '')) AS name_en,
-                COALESCE(NULLIF(name_de, ''), NULLIF(name, ''), NULLIF(name_en, '')) AS name_de,
+                COALESCE(NULLIF(name_zh, ''), NULLIF(name, ''), NULLIF(name_en, '')) AS name_zh,
                 tags,
                 substring(ele FROM E'^(-?\\d+)(\\D|$)')::int AS ele,
                 round(substring(ele FROM E'^(-?\\d+)(\\D|$)')::int * 3.2808399)::int AS ele_ft,
@@ -88,7 +69,7 @@ SELECT
     geometry,
     name,
     name_en,
-    name_de,
+    name_zh,
     tags->'natural' AS class,
     tags,
     NULL AS ele,
@@ -100,7 +81,7 @@ FROM (
                 geometry,
                 name,
                 COALESCE(NULLIF(name_en, ''), name) AS name_en,
-                COALESCE(NULLIF(name_de, ''), name, name_en) AS name_de,
+                COALESCE(NULLIF(name_zh, ''), name, name_en) AS name_zh,
                 tags,
                 row_number() OVER (
                     PARTITION BY LabelGrid(geometry, 100 * pixel_width)

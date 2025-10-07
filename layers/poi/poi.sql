@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION layer_poi(bbox geometry, zoom_level integer, pixel_wi
                 geometry geometry,
                 name     text,
                 name_en  text,
-                name_de  text,
+                name_zh  text,
                 tags     hstore,
                 class    text,
                 subclass text,
@@ -24,7 +24,7 @@ SELECT osm_id_hash AS osm_id,
        geometry,
        NULLIF(name, '') AS name,
        COALESCE(NULLIF(name_en, ''), name) AS name_en,
-       COALESCE(NULLIF(name_de, ''), name, name_en) AS name_de,
+       COALESCE(NULLIF(name_zh, ''), name, name_en) AS name_zh,
        tags,
        poi_class(subclass, mapping_key) AS class,
        CASE
@@ -81,7 +81,7 @@ FROM (
                WHEN zoom_level >= 14 THEN TRUE
                WHEN zoom_level >= 12 AND
                  ((subclass = 'station' AND mapping_key = 'railway')
-                 OR subclass IN ('halt', 'ferry_terminal')) THEN TRUE 
+                 OR subclass IN ('halt', 'ferry_terminal')) THEN TRUE
                WHEN zoom_level BETWEEN 10 AND 14 THEN
                  subclass IN ('university', 'college') AND
                  POWER(4,zoom_level)

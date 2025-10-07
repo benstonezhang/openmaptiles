@@ -24,10 +24,10 @@ DECLARE
     polyg_world record;
 
 BEGIN
-    FOR polyg_world IN 
-        SELECT ST_Transform(country.geometry, 3857) AS geometry 
+    FOR polyg_world IN
+        SELECT ST_Transform(country.geometry, 3857) AS geometry
         FROM country_osm_grid country
-        
+
         LOOP
             FOR osm_id, geometry IN
                 WITH dta AS ( -- CTE is used because of optimization
@@ -101,7 +101,7 @@ CREATE INDEX ON osm_building_block_gen1_dup USING gist (geometry);
 DROP MATERIALIZED VIEW IF EXISTS osm_building_block_gen_z13;
 CREATE MATERIALIZED VIEW osm_building_block_gen_z13 AS
 (
-WITH 
+WITH
     counts AS (
         SELECT count(osm_id) AS counts,
 		        osm_id
@@ -122,14 +122,14 @@ SELECT osm.osm_id,
 			duplicates
 	WHERE osm.osm_id = duplicates.osm_id
 	GROUP BY osm.osm_id
-	
+
 	UNION ALL
 
-	SELECT osm.osm_id, 
-			osm.geometry 
-	FROM osm_building_block_gen1_dup osm, 
-            counts 
-	WHERE counts.counts = 1 
+	SELECT osm.osm_id,
+			osm.geometry
+	FROM osm_building_block_gen1_dup osm,
+            counts
+	WHERE counts.counts = 1
 		AND osm.osm_id = counts.osm_id
 );
 

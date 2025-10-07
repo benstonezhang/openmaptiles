@@ -88,7 +88,7 @@ FROM (
     SELECT DISTINCT ON (hl.osm_id)
         hl.geometry,
         hl.osm_id,
-        transportation_name_tags(hl.geometry, hl.tags, hl.name, hl.name_en, hl.name_de) AS tags,
+        transportation_name_tags(hl.geometry, hl.tags, hl.name, hl.name_en, hl.name_zh) AS tags,
         rm1.network_type,
         CASE
             WHEN rm1.network_type IS NOT NULL AND rm1.ref::text <> ''
@@ -170,9 +170,9 @@ ALTER TABLE osm_transportation_merge_linestring_gen_z11 ADD COLUMN IF NOT EXISTS
 ALTER TABLE osm_transportation_merge_linestring_gen_z11 ADD COLUMN IF NOT EXISTS new_source_ids BIGINT[];
 ALTER TABLE osm_transportation_merge_linestring_gen_z11 ADD COLUMN IF NOT EXISTS old_source_ids BIGINT[];
 
-CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z11_n_source_ids_not_null_idx 
+CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z11_n_source_ids_not_null_idx
     ON osm_transportation_merge_linestring_gen_z11 ((new_source_ids IS NOT NULL));
-CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z11_o_source_ids_not_null_idx 
+CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z11_o_source_ids_not_null_idx
     ON osm_transportation_merge_linestring_gen_z11 ((old_source_ids IS NOT NULL));
 
 -- Create osm_transportation_merge_linestring_gen_z10 as a copy of osm_transportation_merge_linestring_gen_z11 but
@@ -508,9 +508,9 @@ ALTER TABLE osm_transportation_merge_linestring_gen_z8 ADD COLUMN IF NOT EXISTS 
 ALTER TABLE osm_transportation_merge_linestring_gen_z8 ADD COLUMN IF NOT EXISTS new_source_ids bigint[];
 ALTER TABLE osm_transportation_merge_linestring_gen_z8 ADD COLUMN IF NOT EXISTS old_source_ids bigint[];
 
-CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z8_n_source_ids_not_null_idx 
+CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z8_n_source_ids_not_null_idx
     ON osm_transportation_merge_linestring_gen_z8 ((new_source_ids IS NOT NULL));
-CREATE INDEX IF NOT EXISTS  osm_transportation_merge_linestring_gen_z8_o_source_ids_not_null_idx 
+CREATE INDEX IF NOT EXISTS  osm_transportation_merge_linestring_gen_z8_o_source_ids_not_null_idx
     ON osm_transportation_merge_linestring_gen_z8 ((old_source_ids IS NOT NULL));
 
 -- Create osm_transportation_merge_linestring_gen_z7 as a copy of osm_transportation_merge_linestring_gen_z8 but
@@ -728,11 +728,11 @@ BEGIN
                             )
                         ), ZRes(9)
                     ) AS geometry,
-                highway, 
+                highway,
                 NULLIF(network, '') as network,
                 construction,
-                is_bridge, 
-                is_tunnel, 
+                is_bridge,
+                is_tunnel,
                 is_ford,
                 expressway,
                 z_order
@@ -758,10 +758,10 @@ BEGIN
     )
 
     SELECT  CASE
-             WHEN ST_StartPoint(geometry) = ST_EndPoint(geometry) 
+             WHEN ST_StartPoint(geometry) = ST_EndPoint(geometry)
                  THEN ST_RemovePoint(geometry, ST_NPoints(geometry) - 1)
              ELSE geometry
-            END AS geometry,  
+            END AS geometry,
             id,
             osm_id,
             highway,
@@ -846,14 +846,14 @@ BEGIN
             id,
             osm_id,
             -- Only upgrade small trunk chunks to motorway
-            CASE 
+            CASE
                 WHEN highway = 'trunk' AND ST_Length(geometry) < 500 THEN 'motorway'
-                ELSE highway 
+                ELSE highway
             END AS highway,
             network,
-            CASE 
+            CASE
                 WHEN construction = 'trunk' AND ST_Length(geometry) < 500 THEN 'motorway'
-                ELSE construction 
+                ELSE construction
             END AS construction,
             -- Remove bridge/tunnel/ford attributes from short sections of road so they can be merged
             visible_brunnel(geometry, is_bridge, 6) AS is_bridge,
@@ -925,14 +925,14 @@ BEGIN
             id,
             osm_id,
             -- Only upgrade small trunk chunks to motorway
-            CASE 
+            CASE
                 WHEN highway = 'trunk' AND ST_Length(geometry) < 1000 THEN 'motorway'
-                ELSE highway 
+                ELSE highway
             END AS highway,
             network,
-            CASE 
+            CASE
                 WHEN construction = 'trunk' AND ST_Length(geometry) < 1000 THEN 'motorway'
-                ELSE construction 
+                ELSE construction
             END AS construction,
             visible_brunnel(geometry, is_bridge, 5) AS is_bridge,
             visible_brunnel(geometry, is_tunnel, 5) AS is_tunnel,

@@ -16,7 +16,7 @@ layer:
   fields:
     name: The OSM [`name`](http://wiki.openstreetmap.org/wiki/Key:name) value of the place. Language-specific values are in `name:xx`.
     name_en: English name `name:en` if available, otherwise `name`. This is deprecated and will be removed in a future release in favor of `name:en`.
-    name_de: German name `name:de` if available, otherwise `name` or `name:en`. This is deprecated and will be removed in a future release in favor of `name:de`.
+    name_zh: Chinese name `name:zh` if available, otherwise `name` or `name:en`. This is deprecated and will be removed in a future release in favor of `name:zh`.
     capital:
       description: |
           The **capital** field marks the
@@ -30,8 +30,8 @@ layer:
           Distinguish between continents, countries, states, islands and
           places like settlements or smaller entities.
           Use **class** to separately style the different places and build
-          a text hierarchy according to their importance. For places derived 
-          from boundaries, the original value of the 
+          a text hierarchy according to their importance. For places derived
+          from boundaries, the original value of the
           [`boundary`](http://wiki.openstreetmap.org/wiki/Key:boundary) tag.
       values:
       - continent
@@ -75,7 +75,7 @@ layer:
     geometry_field: geometry
     key_field: osm_id
     key_field_as_attribute: no
-    query: (SELECT osm_id, geometry, name, name_en, name_de, {name_languages}, class, rank, capital, iso_a2 FROM layer_place(!bbox!, z(!scale_denominator!), !pixel_width!)) AS t
+    query: (SELECT osm_id, geometry, name, name_en, name_zh, {name_languages}, class, rank, capital, iso_a2 FROM layer_place(!bbox!, z(!scale_denominator!), !pixel_width!)) AS t
 schema:
   - ./types.sql
   - ./capital.sql
