@@ -70,7 +70,7 @@ FROM (
                             (CASE WHEN name <> '' THEN 10000 ELSE 0 END)
                         ) DESC
                     )::int AS "rank"
-         FROM peak_point
+         FROM osm_peak_point
          WHERE geometry && bbox
            AND (
             (ele <> '' AND ele ~ E'^-?\\d{1,4}(\\D|$)')
