@@ -15,6 +15,7 @@ CREATE OR REPLACE FUNCTION osm_building_block_gen1()
                 osm_id   bigint,
                 geometry geometry
             )
+    SET search_path = public, pg_catalog
 AS
 $$
 DECLARE
