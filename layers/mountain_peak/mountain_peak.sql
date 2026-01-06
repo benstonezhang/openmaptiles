@@ -34,7 +34,6 @@ CREATE OR REPLACE FUNCTION layer_mountain_peak(bbox geometry,
                 tags            hstore,
                 ele             int,
                 ele_ft          int,
-                customary_ft    int,
                 "rank"          int
             )
 AS
@@ -50,7 +49,6 @@ SELECT
     tags,
     ele::int,
     ele_ft::int,
-    customary_ft,
     rank::int
 FROM (
          SELECT osm_id,
@@ -61,7 +59,6 @@ FROM (
                 tags,
                 substring(ele FROM E'^(-?\\d+)(\\D|$)')::int AS ele,
                 round(substring(ele FROM E'^(-?\\d+)(\\D|$)')::int * 3.2808399)::int AS ele_ft,
-                CASE WHEN iso_a2 = 'US' THEN 1 END AS customary_ft,
                 row_number() OVER (
                     PARTITION BY LabelGrid(geometry, 100 * pixel_width)
                     ORDER BY (
@@ -93,7 +90,6 @@ SELECT
     tags,
     NULL AS ele,
     NULL AS ele_ft,
-    NULL AS customary_ft,
     rank::int
 FROM (
          SELECT osm_id,
